@@ -8,41 +8,47 @@ import matplotlib.pyplot as plt
 from alpha_vantage.timeseries import TimeSeries
 
 
-def main():
-    key = "cb53b74ad7mshd96157672a5da7fp171cd0jsnfae25e94c672"
+KEY = "cb53b74ad7mshd96157672a5da7fp171cd0jsnfae25e94c672"
 
-    symbol="AAPL"
 
-    ts = TimeSeries(key)
-    aapl, meta = ts.get_daily(symbol=symbol)
-
-    df = pd.DataFrame(aapl)
-    df = df.transpose()
-
-    df.sort_index(ascending=True, inplace=True)
-    df.reset_index(inplace=True)
-
-    df.columns = ["date", "open", "high", "low", "close", "volume"]
-
-    df["date"] = pd.to_datetime(df["date"], format="%Y-%m-%d")
-    
-    df["open"] = pd.to_numeric(df["open"])
-    df["high"] = pd.to_numeric(df["high"])
-    df["low"] = pd.to_numeric(df["low"])
-    df["close"] = pd.to_numeric(df["close"])
-    df["volume"] = pd.to_numeric(df["volume"])
-
+def plot_data(data, symbol=None):
     fig, ax = plt.subplots()
 
-    sns.lineplot(data=df, x="date", y="open", label="open", ax=ax)
-    sns.lineplot(data=df, x="date", y="high", label="high", ax=ax)
-    sns.lineplot(data=df, x="date", y="low", label="low", ax=ax)
-    sns.lineplot(data=df, x="date", y="close", label="volume", ax=ax)
+    colnames = ["date", "open", "high", "low", "close", "volume"]
+    for colname in colnames[1:-1]:
+        sns.lineplot(data=data, x="date", y=colname, label=colname, ax=ax)
 
-    plt.title(symbol)
+    if symbol: plt.title(symbol)
     plt.legend()
-
     plt.show()
+
+
+def get_df_from_symbol(symbol):
+    ts = TimeSeries(KEY)
+    data_, meta = ts.get_daily(symbol=symbol)
+
+    data = pd.DataFrame(data_)
+    data = data.transpose()
+    data.sort_index(ascending=True, inplace=True)
+    data.reset_index(inplace=True)
+
+    colnames = ["date", "open", "high", "low", "close", "volume"]
+    data.columns = colnames
+    data["date"] = pd.to_datetime(data["date"], format="%Y-%m-%d")
+    
+    for colname in colnames[1:]:
+        data[colname] = pd.to_numeric(data[colname])
+
+    return data
+
+
+def main():
+
+    symbol="PLTR"
+    data = get_df_from_symbol(symbol)
+    plot_data(data, symbol=symbol)
+
+    
 
 
 if __name__=="__main__":
