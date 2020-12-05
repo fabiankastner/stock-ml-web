@@ -21,7 +21,7 @@ def plot_data(data, symbol=None):
 
     if symbol: plt.title(symbol)
 
-    fig.set_size_inches(18.5, 10.5)
+    fig.set_size_inches(12.0, 9.0)
     plt.legend()
     plt.show()
 
