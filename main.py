@@ -1,15 +1,15 @@
 import http.client
+import configparser
 
 import pandas as pd
 import seaborn as sns
 sns.set_style("dark")
+import matplotlib.pyplot as plt
 
 import matplotlib.pyplot as plt
 from alpha_vantage.timeseries import TimeSeries
 
-
-KEY = "cb53b74ad7mshd96157672a5da7fp171cd0jsnfae25e94c672"
-
+KEY = None
 
 def plot_data(data, symbol=None):
     fig, ax = plt.subplots()
@@ -19,6 +19,8 @@ def plot_data(data, symbol=None):
         sns.lineplot(data=data, x="date", y=colname, label=colname, ax=ax)
 
     if symbol: plt.title(symbol)
+
+    fig.set_size_inches(18.5, 10.5)
     plt.legend()
     plt.show()
 
@@ -43,6 +45,12 @@ def get_df_from_symbol(symbol):
 
 
 def main():
+
+    config = configparser.ConfigParser()
+    config.read(".config.ini")
+
+    global KEY
+    KEY = config["default"]["alpha_vantage_api_key"]
 
     symbol="PLTR"
     data = get_df_from_symbol(symbol)
