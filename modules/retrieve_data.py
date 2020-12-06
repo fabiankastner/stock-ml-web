@@ -21,7 +21,9 @@ def get_df_from_symbol(symbol):
     key = config["default"]["alpha_vantage_api_key"]
 
     ts = TimeSeries(key)
-    data_, meta = ts.get_daily(symbol=symbol)
+
+    # see link for api request documentation - https://www.alphavantage.co/documentation/
+    data_, meta = ts.get_intraday(symbol=symbol, interval="1min", outputsize="full")
 
     data = pd.DataFrame(data_)
     data = data.transpose()
