@@ -133,3 +133,4 @@ dmypy.json
 
 .config.ini
 
+/data/*.pickle
