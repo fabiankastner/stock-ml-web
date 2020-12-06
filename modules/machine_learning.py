@@ -8,6 +8,7 @@
 
 import os
 import pickle
+import datetime
 
 import numpy as np
 import pandas as pd
@@ -18,23 +19,13 @@ from modules.visualize_data import plot_data
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+   
 def test_1():
-    symbol = "PLTR"
-    
-    # pickle data to minimize api requests
-    # data = get_df_from_symbol(symbol)
-    # pickle.dump(data, open("data/data.pickle", "wb"))
-    
-    data = pickle.load(open("data/data.pickle", "rb"))
+    data = pickle.load(open("data/PLTR--2020-12-06.pickle", "rb"))
 
-    # plot_data(data)
-    
     high_prices = data.loc[:,'high'].to_numpy()
     low_prices = data.loc[:,'low'].to_numpy()
     mid_prices = ((high_prices+low_prices)/2.0)[-6000:]
-
-    print(mid_prices.shape)
 
     train_data = mid_prices[:(mid_prices.shape[0]//2)]
     test_data = mid_prices[(mid_prices.shape[0]//2):]
@@ -45,9 +36,8 @@ def test_1():
 
     smoothing_window_size = 1000
     for di in range(0, 3000, smoothing_window_size):
-        scaler.fit(train_data[di:di+smoothing_window_size,:])
-        train_data[di:di+smoothing_window_size,:] = scaler.transform(train_data[di:di+smoothing_window_size,:])
-
+        scaler.fit(train_data[di:di + smoothing_window_size, :])
+        train_data[di:di + smoothing_window_size, :] = scaler.transform(train_data[di:di + smoothing_window_size, :])
 
     # Reshape both train and test data
     train_data = train_data.reshape(-1)
@@ -55,22 +45,115 @@ def test_1():
     # Normalize test data
     test_data = scaler.transform(test_data).reshape(-1)
 
-    a = 5
-    
     # Now perform exponential moving average smoothing
     # So the data will have a smoother curve than the original ragged data
     EMA = 0.0
     gamma = 0.1
     for ti in range(3000):
-        EMA = gamma*train_data[ti] + (1-gamma)*EMA
+        EMA = gamma * train_data[ti] + (1 - gamma) * EMA
         train_data[ti] = EMA
 
+    # Used for visualization and test purposes
+    all_mid_data = np.concatenate([train_data,test_data], axis=0)
+
+    window_size = 50
+    N = train_data.shape[0]
+    std_avg_predictions = []
+    std_avg_x = []
+    mse_errors = []
+
+    for pred_idx in range(window_size, N):
+
+        date = data.loc[pred_idx, "date"]
+
+        a = train_data[pred_idx - window_size:pred_idx]
+        std_avg_predictions.append(np.mean(train_data[pred_idx - window_size:pred_idx]))
+        mse_errors.append((std_avg_predictions[-1] - train_data[pred_idx]) ** 2)
+        std_avg_x.append(date)
+
+    print("MSE error for standard averaging: {0}".format(round(0.5 * np.mean(mse_errors), 5)))
+
     import matplotlib.pyplot as plt
-    plt.plot(train_data)
+    plt.figure(figsize = (18,9))
+    plt.plot(range(25, train_data.shape[0] + 25), train_data, color='blue', label='True')
+    plt.plot(range(window_size, N), std_avg_predictions, color='orange', label='Prediction')
+    
+    plt.xticks(range(0, train_data.shape[0], 150), data['date'].loc[:3000 - 1:150], rotation=45)
+    plt.xlabel('Date')
+    plt.ylabel('Mid Price')
+    plt.legend(fontsize=18)
     plt.show()
 
-    # Used for visualization and test purposes
-    all_mid_data = np.concatenate([train_data,test_data],axis=0)
+
+class DataGenerator:
+
+    # constructor
+    def __init__(self, data, batch_size, num_unroll):
+        self._prices = data[["high", "low", "open", "close"]]
+        self._prices_length = self._prices.shape[0] - num_unroll
+        
+        self._volume = data["volume"]
+        
+        self._batch_size = batch_size
+        self._num_unroll = num_unroll
+        
+        self._cursor = self._num_unroll
+        
+        self._empty = False
+
+    # reset data
+    def set_data(self, data):
+        self._prices = data[["high", "low", "open", "close"]]
+        self._prices_length = self._prices.shape[0] - num_unroll
+        
+        self._volume = data["volume"]
+        
+        self._batch_size = batch_size
+        self._num_unroll = num_unroll
+        
+        self._cursor = self._num_unroll
+        
+        self._empty = False
+
+    # get next batch
+    def next_batch(self):
+        if self._cursor >= self._prices_length: self._empty = True
+        batches = []
+        
+        for i in range(self._batch_size):
+            X = self._prices.iloc[self._cursor - self._num_unroll:self._cursor, :].values
+            y = self._prices.iloc[self._cursor, :].values
+            
+            batches.append([X, y])
+            
+            self._cursor += 1
+        return batches
+
+    # check if empty
+    def empty(self):
+        return self._empty
+
+
+def test_2():
+    symbol = "PLTR"
+
+    # pickle data to minimize api requests
+    # data = get_df_from_symbol(symbol)
+    # file_name = "{0}--{1}.pickle".format(symbol, datetime.datetime.now().strftime("%Y-%m-%d"))
+    # pickle.dump(data, open("data/{0}".format(file_name), "wb"))
+
+    data = pickle.load(open("data/PLTR--2020-12-06.pickle", "rb"))
+
+    dg = DataGenerator(data, batch_size=4, num_unroll=3)
+
+    while not dg.empty():
+        batch = dg.next_batch()
+        print(batch[0])
+        print(batch[1])
+        print(batch[2])
+
+    print(data.shape)
+    
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
