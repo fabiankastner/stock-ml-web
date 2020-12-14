@@ -19,17 +19,11 @@ def dashboard(request):
     context = {
     }
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
         symbol_form = SymbolForm(request.POST)
-        # check whether it's valid:
         if symbol_form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
             print(symbol_form.cleaned_data)
             return HttpResponseRedirect('{0}/'.format(symbol_form.cleaned_data['symbol']))
 
-    # if a GET (or any other method) we'll create a blank form
     else:
         symbol_form = SymbolForm()
         context['symbol_form'] = symbol_form
@@ -38,6 +32,7 @@ def dashboard(request):
 
 
 def dashboard_symbol(request, symbol):
+
     data = get_df_from_symbol(symbol)
     fig = px.line(data, x="date", y="open")
     plt_div = plot(fig, output_type='div')

@@ -132,3 +132,5 @@ dmypy.json
 .vscode
 
 .config.ini
+
+stockml/common/static/*
