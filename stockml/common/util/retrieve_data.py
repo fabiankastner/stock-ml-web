@@ -4,7 +4,6 @@
 # 2020.12.05
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 import http.client
 import configparser
 
@@ -17,7 +16,7 @@ from alpha_vantage.timeseries import TimeSeries
 
 def get_df_from_symbol(symbol):
     config = configparser.ConfigParser()
-    config.read(".config.ini")
+    config.read("../.config.ini")
     key = config["default"]["alpha_vantage_api_key"]
 
     ts = TimeSeries(key)
