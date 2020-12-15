@@ -11,17 +11,18 @@ from .forms import SymbolForm
 
 
 def index(request):
-    return redirect('dashboard/')
+    return redirect('/dashboard/')
 
 
 def dashboard(request):
+
     template = loader.get_template('visualizer/dashboard.html')
-    context = {
-    }
+    context = {}
+
     if request.method == 'POST':
+        print("#####\n\n {0}\n\n######".format(request.POST))
         symbol_form = SymbolForm(request.POST)
         if symbol_form.is_valid():
-            print(symbol_form.cleaned_data)
             return HttpResponseRedirect('{0}/'.format(symbol_form.cleaned_data['symbol']))
 
     else:
