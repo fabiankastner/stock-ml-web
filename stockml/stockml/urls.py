@@ -18,6 +18,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', include('visualizer.urls')),
+    path('admin/', admin.site.urls),
     path('dashboard', include('visualizer.urls')),
     path('symbol_dashboard/<str:symbol>/', include('visualizer.urls'))
 ]

@@ -1,4 +1,5 @@
 from django.template import loader
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 
@@ -9,16 +10,32 @@ import pandas as pd
 import numpy as np
 
 from common.util.retrieve_data import get_df_from_symbol
-from .forms import SymbolForm
+from .forms import SymbolForm, LoginForm
 
 
 def index(request):
-    return redirect('/dashboard/')
+    if request.user.is_authenticated:
+        return redirect('/dashboard/')
+    else:
+        return redirect('/login/')
 
 
 def login(request):
-    template = loader.get_template('visualizer/login.html')
     context = {}
+
+    if request.method == 'POST':
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            user = authenticate(request, username=login_form.cleaned_data['username'], password=login_form.cleaned_data['password'])
+
+            # TODO
+            if user is not None:
+                login(user)
+                return redirect('/dashboard/')
+            else:
+                return redirect('/login/')
+
+    template = loader.get_template('visualizer/login.html')
     return HttpResponse(template.render(context, request))
 
 
@@ -48,17 +65,11 @@ def dashboard(request):
         "stock_trends": stock_trends
     }
 
-    # handle post request
     if request.method == 'POST':
-        
-        # handle submit-symbol-search request
         if 'submit-symbol-search' in request.POST:
             symbol_form = SymbolForm(request.POST)
             if symbol_form.is_valid():
                 return HttpResponseRedirect('{0}/'.format(symbol_form.cleaned_data['symbol']))
-
-    else:
-        pass
 
     return HttpResponse(template.render(context, request))
 
