@@ -18,8 +18,8 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
-from modules.retrieve_data import get_df_from_symbol
-from modules.visualize_data import plot_data
+from retrieve_data import get_df_from_symbol
+from visualize_data import plot_data
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM
@@ -182,15 +182,15 @@ def get_model(input_shape):
     return model
 
 
-def test_2():
-    symbol = "PLTR"
-
+def test_2(symbol):
+    symbol = symbol
+    current_date = datetime.datetime.now().strftime("%Y-%m-%d")
     # pickle data to minimize api requests
-    # data = get_df_from_symbol(symbol)
+    data = get_df_from_symbol(symbol)
     # file_name = "{0}--{1}.pickle".format(symbol, datetime.datetime.now().strftime("%Y-%m-%d"))
     # pickle.dump(data, open("data/{0}".format(file_name), "wb"))
 
-    data = pickle.load(open("data/PLTR--2020-12-06.pickle", "rb"))
+    #data = pickle.load(open(f"data/{symbol}--{current_date}.pickle", "rb"))
 
     dg = DataGenerator(data, num_unroll=10)
     dg.scale_data()
@@ -212,7 +212,7 @@ def test_2():
     model.fit(batch_X, batch_y, batch_size=32, epochs=3)
 
     # save model
-    pickle.dump(model, open("models/{0}".format(model_name), "wb"))
+    #pickle.dump(model, open("models/{0}".format(model_name), "wb"))
 
     # load model
     # model = load_model("models/{0}".format(model_name))
@@ -220,3 +220,6 @@ def test_2():
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    test_2("ABNB")
