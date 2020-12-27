@@ -49,7 +49,7 @@ def get_df_from_symbol(symbol, key, interval):
 
 def load_data():
     config = configparser.ConfigParser()
-    config.read(f"../.config.ini")
+    config.read("../.config.ini")
 
     key = config["keys"]["alpha_vantage_api"]
     stock_list_file_path= "../{0}".format(config["stock_list"]["file_name"])

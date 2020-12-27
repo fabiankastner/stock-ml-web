@@ -9,6 +9,7 @@ import plotly.graph_objs as go
 import plotly.express as px
 import pandas as pd
 import numpy as np
+import configparser
 
 from common.util.retrieve_data import get_df_from_symbol
 from .forms import SymbolForm, LoginForm
@@ -84,7 +85,11 @@ def dashboard(request):
 
 def dashboard_symbol(request, symbol):
 
-    data = get_df_from_symbol(symbol)
+    config = configparser.ConfigParser()
+    config.read("../.config.ini")
+    key = config["keys"]["alpha_vantage_api"]
+
+    data = get_df_from_symbol(symbol, key, "1min")
     fig = px.line(data, x="date", y="open")
     line_chart_div = plot(fig, output_type='div')
 
