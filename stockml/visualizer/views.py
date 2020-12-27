@@ -1,7 +1,8 @@
 from django.template import loader
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
 
 from plotly.offline import plot
 import plotly.graph_objs as go
@@ -26,17 +27,24 @@ def login(request):
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
-            user = authenticate(request, username=login_form.cleaned_data['username'], password=login_form.cleaned_data['password'])
-
-            # TODO
+            username = login_form.cleaned_data['username']
+            password = login_form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(user)
+                django_login(request, user)
+                messages.success(request, "Successfully logged in" )
                 return redirect('/dashboard/')
             else:
+                messages.error(request, "Wrong username and or password" )
                 return redirect('/login/')
 
     template = loader.get_template('visualizer/login.html')
     return HttpResponse(template.render(context, request))
+
+
+def logout(request):
+    django_logout(request)
+    return redirect('/login/')
 
 
 def dashboard(request):
