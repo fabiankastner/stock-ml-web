@@ -1,0 +1,3 @@
+FROM mariadb:latest
+
+COPY docker-entrypoint-initdb.d/stock-db.sql /docker-entrypoint-initdb.d/stock-db.sql

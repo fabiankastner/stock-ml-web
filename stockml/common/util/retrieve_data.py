@@ -10,9 +10,7 @@ import sqlite3
 import datetime
 import time
 import sys
-import os
 
-from tqdm import tqdm
 import pandas as pd
 from alpha_vantage.timeseries import TimeSeries
 
