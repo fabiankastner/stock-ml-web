@@ -1,7 +1,6 @@
 version: '3.7'
 
 services:
-<<<<<<< HEAD
     stock-db:
         image: mariadb:10.5.6
         build: database/.
@@ -15,15 +14,13 @@ services:
         networks:
         - stock-ml-network-extern
         - stock-ml-network-intern
-
-networks:
-    stock-ml-network-extern:
-        driver: bridge
-    stock-ml-network-intern:
-=======
     web:
         build: stockml/.
         command: python3 manage.py runserver
         ports:
             - 8000:8000
->>>>>>> 606a2995eb1cf37af8c04988f3cb590939ab5532
+
+networks:
+    stock-ml-network-extern:
+        driver: bridge
+    stock-ml-network-intern:
