@@ -1,7 +1,10 @@
 version: '3.7'
 
+volumes:
+    database:
+
 services:
-    stock-db:
+    stock-ml-db:
         image: mariadb:10.5.6
         build: database/.
         restart: unless-stopped
@@ -14,11 +17,15 @@ services:
         networks:
         - stock-ml-network-extern
         - stock-ml-network-intern
-    web:
+        
+    stock-ml-web:
         build: stockml/.
-        command: python3 manage.py runserver
+        command: python3 manage.py runserver 0.0.0.0:8000
         ports:
-            - 8000:8000
+            - "8000:8000"
+        networks:
+        - stock-ml-network-extern
+        - stock-ml-network-intern
 
 networks:
     stock-ml-network-extern:
