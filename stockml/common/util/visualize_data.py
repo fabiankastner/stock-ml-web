@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 
 def plot_data(data, symbol=None):
     fig, ax = plt.subplots()
+    
 
     colnames = ["date", "open", "high", "low", "close", "volume"]
     for colname in colnames[1:-1]:
