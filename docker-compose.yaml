@@ -1,15 +1,8 @@
 version: '3.7'
 
-volumes:
-    database:
-    
 services:
-    stock-db:
-        build: database/.
-        restart: unless-stopped
-        networks:
-         - stock-ml-network
-
-networks:
-    stock-ml-network:
-        driver: bridge
+    web:
+        build: stockml/.
+        command: python3 manage.py runserver
+        ports:
+            - 8000:8000

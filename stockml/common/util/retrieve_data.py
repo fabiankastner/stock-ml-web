@@ -49,10 +49,10 @@ def get_df_from_symbol(symbol, key, interval):
 
 def load_data():
     config = configparser.ConfigParser()
-    config.read("../.config.ini")
+    config.read(".config.ini")
 
     key = config["keys"]["alpha_vantage_api"]
-    stock_list_file_path= "../{0}".format(config["stock_list"]["file_name"])
+    stock_list_file_path= config["stock_list"]["file_name"]
 
     # http://www.nasdaqtrader.com/trader.aspx?id=symboldirdefs
     stock_list_df = pd.read_csv(stock_list_file_path, sep="|")
