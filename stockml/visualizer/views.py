@@ -86,7 +86,7 @@ def dashboard(request):
 def dashboard_symbol(request, symbol):
 
     config = configparser.ConfigParser()
-    config.read("../.config.ini")
+    config.read(".config.ini")
     key = config["keys"]["alpha_vantage_api"]
 
     data = get_df_from_symbol(symbol, key, "1min")
