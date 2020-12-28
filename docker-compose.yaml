@@ -1,8 +1,26 @@
 version: '3.7'
 
 services:
+    stock-db:
+        image: mariadb:10.5.6
+        build: database/.
+        restart: unless-stopped
+        volumes:
+            - "database:/var/lib/mysql"
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: server
+        networks:
+        - stock-ml-network-extern
+        - stock-ml-network-intern
     web:
         build: stockml/.
         command: python3 manage.py runserver
         ports:
             - 8000:8000
+
+networks:
+    stock-ml-network-extern:
+        driver: bridge
+    stock-ml-network-intern:
