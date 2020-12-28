@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 
 COPY / ./
 
-RUN cd stock-ml/ && python3 manage.py runserver 0.0.0.0:8000
+RUN cd stockml/ && python3 manage.py runserver 0.0.0.0:8000
