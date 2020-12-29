@@ -13,5 +13,3 @@ RUN python3 -m pip install --upgrade https://storage.googleapis.com/tensorflow/m
 RUN pip install -r requirements.txt
 
 COPY / ./
-
-RUN cd stockml/ && python3 manage.py runserver 0.0.0.0:8000

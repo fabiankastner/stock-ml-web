@@ -11,6 +11,8 @@ import datetime
 import time
 import sys
 
+import mysql.connector
+
 import pandas as pd
 from alpha_vantage.timeseries import TimeSeries
 
@@ -59,10 +61,31 @@ def load_data():
 
     interval = "1min"
 
-    conn = sqlite3.connect('stock_data.db')
+    # conn = sqlite3.connect('stock_data.db')
+    conn = mysql.connector.connect(user='root', password='password',
+                            host='127.0.0.1', port=3306,
+                            database='stock_db')
     cursor = conn.cursor()
 
-    limit = 100
+    # cursor.execute("""DROP TABLE IF EXISTS one_min;""")
+
+    cursor.execute(
+        """CREATE TABLE IF NOT EXISTS one_min (
+            id INT AUTO_INCREMENT PRIMARY KEY, 
+            date VARCHAR(19), 
+            open DOUBLE(8, 3), 
+            high DOUBLE(8, 3), 
+            low DOUBLE(8, 3), 
+            close DOUBLE(8, 3), 
+            volume INT, 
+            symbol VARCHAR(5));"""
+    )
+
+    data = pd.read_sql_query("SELECT * FROM one_min;", conn)
+
+    print(data.shape)
+
+    """ limit = 100
     batch_from = 0
 
     for index, row in stock_list_df.iterrows():
@@ -94,7 +117,12 @@ def load_data():
 
                     data_list = list(data.itertuples(index=False, name=None))
 
-                    cursor.executemany("INSERT INTO one_min (date, open, high, low, close, volume, symbol) VALUES (?, ?, ?, ?, ?, ?, ?)", data_list)
+                    # cursor.executemany("INSERT INTO one_min (date, open, high, low, close, volume, symbol) VALUES (?, ?, ?, ?, ?, ?, ?)", data_list)
+                    sql = "INSERT INTO one_min (date, open, high, low, close, volume, symbol) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                    
+                    for val in data_list:
+                        cursor.execute(sql, val)
+                    
                     conn.commit()
                     success = True
 
@@ -110,7 +138,7 @@ def load_data():
                         time.sleep(0.1)
                         sys.stdout.write('\b')
 
-    conn.close()
+    conn.close() """
 
 
 
