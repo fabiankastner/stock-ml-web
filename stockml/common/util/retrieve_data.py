@@ -81,11 +81,10 @@ def load_data():
             symbol VARCHAR(5));"""
     )
 
-    data = pd.read_sql_query("SELECT * FROM one_min;", conn)
+    # data = pd.read_sql_query("SELECT * FROM one_min;", conn)
+    # print(data.shape)
 
-    print(data.shape)
-
-    """ limit = 100
+    limit = 100
     batch_from = 0
 
     for index, row in stock_list_df.iterrows():
@@ -138,7 +137,7 @@ def load_data():
                         time.sleep(0.1)
                         sys.stdout.write('\b')
 
-    conn.close() """
+    conn.close()
 
 
 
