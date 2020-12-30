@@ -11,10 +11,11 @@ import datetime
 import time
 import sys
 
-import mysql.connector
-
 import pandas as pd
+import mysql.connector
 from alpha_vantage.timeseries import TimeSeries
+
+# from common.util import utils
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -27,6 +28,13 @@ def spinning_cursor():
 
 def console_log(message):
     print("[{0}] [{1}]".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), message))
+
+
+def get_connection():
+    conn = mysql.connector.connect(user='root', password='password',
+                            host='127.0.0.1', port=3306,
+                            database='stock_db')
+    return conn
 
 
 def get_df_from_symbol(symbol, key, interval):
@@ -49,9 +57,15 @@ def get_df_from_symbol(symbol, key, interval):
     return data
 
 
+def get_symbols():
+    conn = get_connection()
+    cursor = conn.cursor()
+    symbols_df = pd.read_sql_query("SELECT DISTINCT symbol FROM one_min", conn)
+    return symbols_df["symbol"].to_list()
+
+
 def load_data():
-    config = configparser.ConfigParser()
-    config.read(".config.ini")
+    config = get_config()
 
     key = config["keys"]["alpha_vantage_api"]
     stock_list_file_path= config["stock_list"]["file_name"]
@@ -62,9 +76,7 @@ def load_data():
     interval = "1min"
 
     # conn = sqlite3.connect('stock_data.db')
-    conn = mysql.connector.connect(user='root', password='password',
-                            host='127.0.0.1', port=3306,
-                            database='stock_db')
+    conn = get_connection()
     cursor = conn.cursor()
 
     # cursor.execute("""DROP TABLE IF EXISTS one_min;""")
@@ -142,6 +154,8 @@ def load_data():
 
 
 if __name__ == "__main__":
-    load_data()
+    #load_data()
+    print(get_symbols())
+
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

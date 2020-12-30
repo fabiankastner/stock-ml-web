@@ -12,6 +12,7 @@ import numpy as np
 import configparser
 
 from common.util.retrieve_data import get_df_from_symbol
+from common.util.utils import get_config, get_symbol_information
 from .forms import SymbolForm, LoginForm
 
 
@@ -49,6 +50,7 @@ def logout(request):
 
 
 def dashboard(request):
+    config = get_config()
 
     template = loader.get_template('visualizer/dashboard.html')
     
@@ -71,7 +73,9 @@ def dashboard(request):
 
     context = {
         "histogram_div": histogram_div,
-        "stock_trends": stock_trends
+        "stock_trends": stock_trends,
+        "stock_list_verbose": config["stock_list"]["verbose"],
+        "stock_list_date_updated": config["stock_list"]["date_updated"]
     }
 
     if request.method == 'POST':
@@ -85,8 +89,7 @@ def dashboard(request):
 
 def dashboard_symbol(request, symbol):
 
-    config = configparser.ConfigParser()
-    config.read(".config.ini")
+    config = get_config()
     key = config["keys"]["alpha_vantage_api"]
 
     data = get_df_from_symbol(symbol, key, "1min")
@@ -94,17 +97,12 @@ def dashboard_symbol(request, symbol):
     line_chart_div = plot(fig, output_type='div')
 
     template = loader.get_template('visualizer/dashboard_symbol.html')
-    
-    symbols_verbose = {
-        "pltr": "Palantir",
-        "tsla": "Tesla"
-    }
 
-    if symbol not in symbols_verbose: symbols_verbose[symbol] = symbol
+    symbol_info = get_symbol_information(symbol)
 
     context = {
         'symbol': symbol,
-        'symbol_verbose': symbols_verbose[symbol],
+        'symbol_verbose': symbol_info["Security Name"],
         'line_chart_div': line_chart_div
     }
     

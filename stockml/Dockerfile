@@ -6,7 +6,7 @@ WORKDIR /app
 
 ADD . /app
 
-COPY requirements.txt ./
+COPY ../requirements.txt ./
 
 RUN python3 -m pip install --upgrade https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-0.12.0-py3-none-any.whl
 
