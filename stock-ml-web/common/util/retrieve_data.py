@@ -37,6 +37,7 @@ def get_connection():
     return conn
 
 
+
 def get_df_from_symbol(symbol, key, interval):
     ts = TimeSeries(key)
     # see link for api request documentation - https://www.alphavantage.co/documentation/
