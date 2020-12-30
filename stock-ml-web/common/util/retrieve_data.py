@@ -79,7 +79,6 @@ def load_data():
     conn = get_connection()
     cursor = conn.cursor()
 
-
     # cursor.execute("""DROP TABLE IF EXISTS one_min;""")
 
     cursor.execute(
