@@ -29,7 +29,7 @@ jobs:
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v4
       with:
-        file: .
+        file: ./dockerfile
         image: kastnerfabian/stock-ml-web
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
