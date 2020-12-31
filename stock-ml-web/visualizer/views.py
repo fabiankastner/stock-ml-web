@@ -63,28 +63,18 @@ def dashboard(request):
     fig.update_yaxes(visible=False, showticklabels=False)
     histogram_div = plot(fig, output_type='div')
 
-    print(get_symbols())
-
     stock_trends_pos = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) + 5, 2)} for symbol in random.sample(get_symbols(), 2)], key=itemgetter("trend"))
-    stock_trends_pos = [{"symbol": stock_trend_pos["symbol"], "trend_bin": True, "trend": "+{}%".format(stock_trend_pos["trend"])} for stock_trend_pos in stock_trends_pos]
+    stock_trends_pos = [{"symbol": stock_trend_pos["symbol"], "trend_bin": True, "trend": "+{} %".format(stock_trend_pos["trend"])} for stock_trend_pos in stock_trends_pos]
     
     stock_trends_neg = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) - 5, 2)} for symbol in random.sample(get_symbols(), 2)], key=itemgetter("trend"), reverse=True)
-    stock_trends_neg = [{"symbol": stock_trend_neg["symbol"], "trend_bin": False, "trend": "{}%".format(stock_trend_neg["trend"])} for stock_trend_neg in stock_trends_neg]
+    stock_trends_neg = [{"symbol": stock_trend_neg["symbol"], "trend_bin": False, "trend": "{} %".format(stock_trend_neg["trend"])} for stock_trend_neg in stock_trends_neg]
     
     stock_trends = stock_trends_pos + stock_trends_neg
-    
-    # stock_trends = [
-    #     {
-    #         "symbol": "TSLA",
-    #         "trend": "+11.3 %"
-    #     },
-    #     {
-    #         "symbol": "PLTR",
-    #         "trend": "+4.7 %"
-    #     }
-    # ]
+
+    stocks = len(get_symbols())
 
     context = {
+        "stocks": stocks, 
         "histogram_div": histogram_div,
         "stock_trends": stock_trends,
         "stock_list_verbose": config["stock_list"]["verbose"],

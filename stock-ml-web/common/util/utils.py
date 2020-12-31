@@ -1,5 +1,10 @@
 import configparser
 import pandas as pd
+import datetime
+
+
+def console_log(message):
+    print("[{0}] {1}".format(datetime.datetime.now().strftime("%d/%b/%Y %H:%M:%S"), message))
 
 
 def get_config():

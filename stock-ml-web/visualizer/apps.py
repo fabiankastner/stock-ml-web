@@ -11,7 +11,6 @@ class VisualizerConfig(AppConfig):
     def ready(self):
         import os
         if os.environ.get('RUN_MAIN', None) == 'true':
-            
 
             # load_data()
             p = Process(target=load_data)

@@ -7,15 +7,16 @@
 import http.client
 import configparser
 import sqlite3
-import datetime
 import time
 import sys
+import datetime
 
 import pandas as pd
 import mysql.connector
 from alpha_vantage.timeseries import TimeSeries
 
-from common.util.utils import get_config
+from common.util.utils import get_config, console_log
+# from utils import get_config
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -24,10 +25,6 @@ def spinning_cursor():
     while True:
         for cursor in "⠁⠂⠄⡀⢀⠠⠐⠈":
             yield cursor
-
-
-def console_log(message):
-    print("[{0}] [{1}]".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), message))
 
 
 def get_connection():
@@ -46,7 +43,6 @@ def get_symbols():
 
 def get_symbol_data_from_db(symbol):
     conn = get_connection()
-    print(get_symbols)
     symbol_data = pd.read_sql_query("SELECT * FROM one_min WHERE symbol = '{0}'".format(symbol), conn);
     symbol_data["date"] = pd.to_datetime(symbol_data["date"], format="%Y-%m-%d %H:%M:%S")
     return symbol_data
@@ -87,12 +83,16 @@ def load_data():
 
     interval = "1min"
 
+    time.sleep(1)
+    print()
     # conn = sqlite3.connect('stock_data.db')
     try:
         conn = get_connection()
     except:
-        print("No Database Connection Available")
+        console_log("No Database Connection Available")
         return
+
+    console_log("Database Connection Established - Fetching Data")
 
     cursor = conn.cursor()
 
@@ -113,11 +113,11 @@ def load_data():
     # data = pd.read_sql_query("SELECT * FROM one_min;", conn)
     # print(data.shape)
 
-    limit = 100
+    # limit = 150
     batch_from = 0
 
     for index, row in stock_list_df.iterrows():
-        if index >= limit: break
+        # if index >= limit: break
 
         success = False
 
@@ -134,7 +134,7 @@ def load_data():
 
         if days_since_last_update >= 5:
 
-            print("Updating {}".format(symbol))
+            console_log("Updating {}".format(symbol))
             while not success:
                 try:
                     data = get_df_from_symbol(symbol)
@@ -156,17 +156,15 @@ def load_data():
 
                 # reached api call frequency limit
                 except ValueError as e:
-                    console_log("({0}-{1}/{2}) up-to-date".format(str(batch_from + 1), str(index), str(limit)))
+                    console_log("({0}-{1}/{2}) up-to-date".format(str(batch_from + 1), str(index), str(stock_list_df.shape[0])))
                     batch_from = index
 
-                    print(str(e))
-
-                    spinner = spinning_cursor()
+                    # spinner = spinning_cursor()
                     for _ in range(600):
-                        sys.stdout.write(next(spinner))
-                        sys.stdout.flush()
+                        # sys.stdout.write(next(spinner))
+                        # sys.stdout.flush()
                         time.sleep(0.1)
-                        sys.stdout.write('\b')
+                        # sys.stdout.write('\b')
 
     conn.close()
 
