@@ -4,6 +4,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
+import random
+from operator import itemgetter
+
 from plotly.offline import plot
 import plotly.graph_objs as go
 import plotly.express as px
@@ -11,7 +14,7 @@ import pandas as pd
 import numpy as np
 import configparser
 
-from common.util.retrieve_data import get_df_from_symbol
+from common.util.retrieve_data import get_df_from_symbol, get_symbol_data_from_db, get_symbols
 from common.util.utils import get_config, get_symbol_information
 from .forms import SymbolForm, LoginForm
 
@@ -60,16 +63,26 @@ def dashboard(request):
     fig.update_yaxes(visible=False, showticklabels=False)
     histogram_div = plot(fig, output_type='div')
 
-    stock_trends = [
-        {
-            "symbol": "TSLA",
-            "trend": "+11.3 %"
-        },
-        {
-            "symbol": "PLTR",
-            "trend": "+4.7 %"
-        }
-    ]
+    print(get_symbols())
+
+    stock_trends_pos = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) + 5, 2)} for symbol in random.sample(get_symbols(), 2)], key=itemgetter("trend"))
+    stock_trends_pos = [{"symbol": stock_trend_pos["symbol"], "trend_bin": True, "trend": "+{}%".format(stock_trend_pos["trend"])} for stock_trend_pos in stock_trends_pos]
+    
+    stock_trends_neg = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) - 5, 2)} for symbol in random.sample(get_symbols(), 2)], key=itemgetter("trend"), reverse=True)
+    stock_trends_neg = [{"symbol": stock_trend_neg["symbol"], "trend_bin": False, "trend": "{}%".format(stock_trend_neg["trend"])} for stock_trend_neg in stock_trends_neg]
+    
+    stock_trends = stock_trends_pos + stock_trends_neg
+    
+    # stock_trends = [
+    #     {
+    #         "symbol": "TSLA",
+    #         "trend": "+11.3 %"
+    #     },
+    #     {
+    #         "symbol": "PLTR",
+    #         "trend": "+4.7 %"
+    #     }
+    # ]
 
     context = {
         "histogram_div": histogram_div,
@@ -89,10 +102,7 @@ def dashboard(request):
 
 def dashboard_symbol(request, symbol):
 
-    config = get_config()
-    key = config["keys"]["alpha_vantage_api"]
-
-    data = get_df_from_symbol(symbol, key, "1min")
+    data = get_symbol_data_from_db(symbol)
     fig = px.line(data, x="date", y="open")
     line_chart_div = plot(fig, output_type='div')
 

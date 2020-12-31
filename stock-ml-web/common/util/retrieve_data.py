@@ -15,7 +15,7 @@ import pandas as pd
 import mysql.connector
 from alpha_vantage.timeseries import TimeSeries
 
-# from common.util import utils
+from common.util.utils import get_config
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -37,7 +37,26 @@ def get_connection():
     return conn
 
 
-def get_df_from_symbol(symbol, key, interval):
+def get_symbols():
+    conn = get_connection()
+    cursor = conn.cursor()
+    symbols_df = pd.read_sql_query("SELECT DISTINCT symbol FROM one_min", conn)
+    return symbols_df["symbol"].to_list()
+
+
+def get_symbol_data_from_db(symbol):
+    conn = get_connection()
+    print(get_symbols)
+    symbol_data = pd.read_sql_query("SELECT * FROM one_min WHERE symbol = '{0}'".format(symbol), conn);
+    symbol_data["date"] = pd.to_datetime(symbol_data["date"], format="%Y-%m-%d %H:%M:%S")
+    return symbol_data
+
+
+def get_df_from_symbol(symbol, interval="1min"):
+
+    config = get_config()
+    key = config["keys"]["alpha_vantage_api"]
+
     ts = TimeSeries(key)
     # see link for api request documentation - https://www.alphavantage.co/documentation/
     data_, meta = ts.get_intraday(symbol=symbol, interval=interval, outputsize="full")
@@ -57,18 +76,11 @@ def get_df_from_symbol(symbol, key, interval):
     return data
 
 
-def get_symbols():
-    conn = get_connection()
-    cursor = conn.cursor()
-    symbols_df = pd.read_sql_query("SELECT DISTINCT symbol FROM one_min", conn)
-    return symbols_df["symbol"].to_list()
-
-
 def load_data():
     config = get_config()
 
     key = config["keys"]["alpha_vantage_api"]
-    stock_list_file_path= config["stock_list"]["file_name"]
+    stock_list_file_path= "common/bin/{0}".format(config["stock_list"]["file_name"])
 
     # http://www.nasdaqtrader.com/trader.aspx?id=symboldirdefs
     stock_list_df = pd.read_csv(stock_list_file_path, sep="|")
@@ -76,9 +88,13 @@ def load_data():
     interval = "1min"
 
     # conn = sqlite3.connect('stock_data.db')
-    conn = get_connection()
-    cursor = conn.cursor()
+    try:
+        conn = get_connection()
+    except:
+        print("No Database Connection Available")
+        return
 
+    cursor = conn.cursor()
 
     # cursor.execute("""DROP TABLE IF EXISTS one_min;""")
 
@@ -121,7 +137,7 @@ def load_data():
             print("Updating {}".format(symbol))
             while not success:
                 try:
-                    data = get_df_from_symbol(symbol, key, interval)
+                    data = get_df_from_symbol(symbol)
 
                     data = data[data['date'] > latest_date_datetime]
                     data["symbol"] = symbol
@@ -143,6 +159,8 @@ def load_data():
                     console_log("({0}-{1}/{2}) up-to-date".format(str(batch_from + 1), str(index), str(limit)))
                     batch_from = index
 
+                    print(str(e))
+
                     spinner = spinning_cursor()
                     for _ in range(600):
                         sys.stdout.write(next(spinner))
@@ -155,8 +173,8 @@ def load_data():
 
 
 if __name__ == "__main__":
-    #load_data()
-    print(get_symbols())
+    load_data()
+    # print(get_symbols())
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

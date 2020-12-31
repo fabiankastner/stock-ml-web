@@ -1,7 +1,7 @@
 from django import forms
 
 class SymbolForm(forms.Form):
-    symbol = forms.CharField(label='Enter a Valid Symbol', max_length=4)
+    symbol = forms.CharField(label='Enter a Valid Symbol', max_length=5)
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Enter Username')
