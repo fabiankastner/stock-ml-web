@@ -31,7 +31,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/app:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/stock-ml-web:latest
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
