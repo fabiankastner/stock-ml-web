@@ -15,4 +15,3 @@ class VisualizerConfig(AppConfig):
             # load_data()
             p = Process(target=load_data)
             p.start()
-            
