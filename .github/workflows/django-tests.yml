@@ -25,4 +25,5 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
+        cd stock-ml-web/
         python manage.py test
