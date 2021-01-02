@@ -8,14 +8,15 @@ import random
 from operator import itemgetter
 
 from plotly.offline import plot
-import plotly.graph_objs as go
 import plotly.express as px
+
 import pandas as pd
 import numpy as np
 import configparser
 
 from common.util.retrieve_data import get_df_from_symbol, get_symbol_data_from_db, get_symbols
 from common.util.utils import get_config, get_symbol_information
+from common.util.visualize_data import get_data_plot, get_prediction_plot
 from .forms import SymbolForm, LoginForm
 
 
@@ -59,9 +60,15 @@ def dashboard(request):
     
     df = pd.DataFrame({'predictions': np.random.normal(0, 0.3, 50).tolist()})
   
+    # get overall prediction histogram
     fig = px.histogram(df, x="predictions", title="Histogram of Predicted Trends", labels={"predictions": "Predicted Trend +/-"})
     fig.update_yaxes(visible=False, showticklabels=False)
     histogram_div = plot(fig, output_type='div')
+
+    # best best predicted line chart
+    data = get_symbol_data_from_db('abnb')
+    fig = px.line(data, x="date", y="open")
+    line_chart_div = plot(fig, output_type='div')
 
     stock_trends_pos = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) + 5, 2)} for symbol in random.sample(get_symbols(), 2)], key=itemgetter("trend"))
     stock_trends_pos = [{"symbol": stock_trend_pos["symbol"], "trend_bin": True, "trend": "+{} %".format(stock_trend_pos["trend"])} for stock_trend_pos in stock_trends_pos]
@@ -76,6 +83,7 @@ def dashboard(request):
     context = {
         "stocks": stocks, 
         "histogram_div": histogram_div,
+        "line_chart_div": line_chart_div,
         "stock_trends": stock_trends,
         "stock_list_verbose": config["stock_list"]["verbose"],
         "stock_list_date_updated": config["stock_list"]["date_updated"]

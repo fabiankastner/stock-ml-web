@@ -21,109 +21,136 @@
     <!-- Content Row -->
     <div class="row">
 
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Stocks
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ stocks }}
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <span class="iconify big dark" data-icon="mdi:bank-check" data-inline="false"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="col-3">
 
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Average Prediction
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                +0.5 %
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <span class="iconify big dark {" data-icon="mdi:arrow-top-right-bold-outline" data-inline="false"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Stocks Predicted
-                            </div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">42 %</div>
+            <div class="mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Stocks
                                 </div>
-                                <div class="col">
-                                    <div class="progress progress-sm mr-2">
-                                        <div class="progress-bar" role="progressbar"
-                                            style="width: 42%" aria-valuenow="50" aria-valuemin="0"
-                                            aria-valuemax="100"></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ stocks }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <span class="iconify big dark" data-icon="mdi:bank-check" data-inline="false"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Average Prediction
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    +0.5 %
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <span class="iconify big dark {" data-icon="mdi:arrow-top-right-bold-outline" data-inline="false"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-3">
+
+
+            <div class="mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Stocks Predicted
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">42 %</div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="progress progress-sm mr-2">
+                                            <div class="progress-bar" role="progressbar"
+                                                style="width: 42%" aria-valuenow="50" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-auto">
-                            <span class="iconify big dark" data-icon="mdi:bank" data-inline="false"></span>
+                            <div class="col-auto">
+                                <span class="iconify big dark" data-icon="mdi:bank" data-inline="false"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+    
+    
+            <div class="mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Stock List
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ stock_list_verbose }}
+                                </div>
+                                <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
+                                    {{ stock_list_date_updated }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <span class="iconify big dark" data-icon="mdi:clipboard-list-outline" data-inline="false"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
 
-        <!-- Pending Requests Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Stock List
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ stock_list_verbose }}
-                            </div>
-                            <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
-                                {{ stock_list_date_updated }}
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <span class="iconify big dark" data-icon="mdi:clipboard-list-outline" data-inline="false"></span>
+        <div class="col">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div
+                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Highest Predicted Stock</h6>
+                    </div>
+
+                    <div class="card-body">
+                        <div style="width:400px;height:300px;">
+                            {{ line_chart_div|safe }}
                         </div>
                     </div>
                 </div>
-            </div>
+
+
         </div>
+       
     </div>
 
-    <!-- Content Row -->
 
     <div class="row">
 
         <!-- Area Chart -->
-        <div class="col-xl-8 col-lg-7">
+        <div class="col-lg-9">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div
@@ -156,7 +183,7 @@
         </div>
 
         <!-- Pie Chart -->
-        <div class="col-xl-4 col-lg-5">
+        <div class="col-lg-3">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div
@@ -187,8 +214,9 @@
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
-                                                <div class="h7 mb-0 font-weight-bold text-gray-800">
-                                                    {{ stock_trend.symbol }} {{ stock_trend.trend }}
+                                                <div class="mb-0 font-weight-bold text-gray-800">
+                                                    {{ stock_trend.symbol }}<br/>
+                                                    {{ stock_trend.trend }}
                                                 </div>
                                             </div>
                                         </div>
@@ -202,7 +230,8 @@
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="h7 mb-0 font-weight-bold text-gray-800">
-                                                    {{ stock_trend.symbol }} {{ stock_trend.trend }}
+                                                    {{ stock_trend.symbol }}<br/>
+                                                    {{ stock_trend.trend }}
                                                 </div>
                                             </div>
                                         </div>

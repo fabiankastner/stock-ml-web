@@ -86,11 +86,17 @@ def load_data():
     time.sleep(1)
     print()
     # conn = sqlite3.connect('stock_data.db')
-    try:
-        conn = get_connection()
-    except:
-        console_log("No Database Connection Available")
-        return
+
+    connection_established = False
+    conn = None
+
+    while(not connection_established):
+        try:
+            conn = get_connection()
+            connection_established = True
+        except:
+            console_log("No Database Connection Available - retrying in 5 minutes")
+            time.sleep(300)
 
     console_log("Database Connection Established - Fetching Data")
 
