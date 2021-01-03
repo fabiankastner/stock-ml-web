@@ -7,16 +7,12 @@ from django.contrib import messages
 import random
 from operator import itemgetter
 
-from plotly.offline import plot
-import plotly.express as px
-
-import pandas as pd
 import numpy as np
-import configparser
+import pandas as pd
+import plotly.express as px
+from plotly.offline import plot
 
-from common.util.retrieve_data import get_df_from_symbol, get_symbol_data_from_db, get_symbols
-from common.util.utils import get_config, get_symbol_information
-from common.util.visualize_data import get_data_plot, get_prediction_plot
+from common.util import utils
 from .forms import SymbolForm, LoginForm
 
 
@@ -54,7 +50,7 @@ def logout(request):
 
 
 def dashboard(request):
-    config = get_config()
+    config = utils.get_config()
 
     template = loader.get_template('visualizer/dashboard.html')
     
@@ -66,19 +62,19 @@ def dashboard(request):
     histogram_div = plot(fig, output_type='div')
 
     # best best predicted line chart
-    data = get_symbol_data_from_db('abnb')
+    data = utils.get_symbol_data_from_db('abnb')
     fig = px.line(data, x="date", y="open")
     line_chart_div = plot(fig, output_type='div')
 
-    stock_trends_pos = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) + 5, 2)} for symbol in random.sample(get_symbols(), 2)], key=itemgetter("trend"))
+    stock_trends_pos = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) + 5, 2)} for symbol in random.sample(utils.get_symbols(), 2)], key=itemgetter("trend"))
     stock_trends_pos = [{"symbol": stock_trend_pos["symbol"], "trend_bin": True, "trend": "+{} %".format(stock_trend_pos["trend"])} for stock_trend_pos in stock_trends_pos]
     
-    stock_trends_neg = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) - 5, 2)} for symbol in random.sample(get_symbols(), 2)], key=itemgetter("trend"), reverse=True)
+    stock_trends_neg = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) - 5, 2)} for symbol in random.sample(utils.get_symbols(), 2)], key=itemgetter("trend"), reverse=True)
     stock_trends_neg = [{"symbol": stock_trend_neg["symbol"], "trend_bin": False, "trend": "{} %".format(stock_trend_neg["trend"])} for stock_trend_neg in stock_trends_neg]
     
     stock_trends = stock_trends_pos + stock_trends_neg
 
-    stocks = len(get_symbols())
+    stocks = len(utils.get_symbols())
 
     context = {
         "stocks": stocks, 
@@ -100,13 +96,13 @@ def dashboard(request):
 
 def dashboard_symbol(request, symbol):
 
-    data = get_symbol_data_from_db(symbol)
+    data = utils.get_symbol_data_from_db(symbol)
     fig = px.line(data, x="date", y="open")
     line_chart_div = plot(fig, output_type='div')
 
     template = loader.get_template('visualizer/dashboard_symbol.html')
 
-    symbol_info = get_symbol_information(symbol)
+    symbol_info = utils.get_symbol_information(symbol)
 
     context = {
         'symbol': symbol,
