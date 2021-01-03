@@ -28,8 +28,8 @@ def spinning_cursor():
 
 
 def get_connection():
-    conn = mysql.connector.connect(user='root', password='password',
-                            host='127.0.0.1', port=3306,
+    conn = mysql.connector.connect(user='stock_web', password='test123',
+                            host='db', port=3306,
                             database='stock_db')
     return conn
 
@@ -94,7 +94,8 @@ def load_data():
         try:
             conn = get_connection()
             connection_established = True
-        except:
+        except Exception as e:
+            print(str(e))
             console_log("No Database Connection Available - retrying in 5 minutes")
             time.sleep(300)
 
