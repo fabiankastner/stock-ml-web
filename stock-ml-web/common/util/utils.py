@@ -2,6 +2,7 @@ import sys
 import time
 import datetime
 import configparser
+import requests
 
 import pandas as pd
 import mysql.connector
@@ -15,9 +16,8 @@ def console_log(message):
 
 # read config
 def get_config():
-    config = configparser.ConfigParser()
-    config.read("common/bin/config.ini")
-    return config
+    response = requests.get("http://configserver:5000/config")
+    return response.json()
 
 
 # get symbol information from stock_list file
