@@ -16,7 +16,7 @@ def console_log(message):
 
 # read config
 def get_config():
-    response = requests.get("http://configserver:5000/config")
+    response = requests.get("http://configservice:5000/config")
     return response.json()
 
 
