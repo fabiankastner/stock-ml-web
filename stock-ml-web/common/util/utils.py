@@ -16,9 +16,8 @@ def console_log(message):
 
 # read config
 def get_config():
-    response = requests.get('http://config:5000/config')
-    config = json.loads(response.text)
-    return config
+    response = requests.get("http://configservice:5000/config")
+    return response.json()
 
 
 # get symbol information from stock_list file
