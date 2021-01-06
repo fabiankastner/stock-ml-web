@@ -1,7 +1,8 @@
 import sys
 import time
+import json
+import requests
 import datetime
-import configparser
 
 import pandas as pd
 import mysql.connector
@@ -15,8 +16,8 @@ def console_log(message):
 
 # read config
 def get_config():
-    config = configparser.ConfigParser()
-    config.read("common/bin/config.ini")
+    response = requests.get('http://config:5000/config')
+    config = json.loads(response.text)
     return config
 
 
