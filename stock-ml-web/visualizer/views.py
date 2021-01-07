@@ -57,7 +57,7 @@ def dashboard(request):
     df = pd.DataFrame({'predictions': np.random.normal(0, 0.3, 50).tolist()})
   
     # get overall prediction histogram
-    fig = px.histogram(df, x="predictions", title="Histogram of Predicted Trends", labels={"predictions": "Predicted Trend +/-"})
+    fig = px.histogram(df, x="predictions", labels={"predictions": "Predicted Trend +/-"})
     fig.update_yaxes(visible=False, showticklabels=False)
     histogram_div = plot(fig, output_type='div')
 
@@ -82,14 +82,12 @@ def dashboard(request):
 
 
 
-    stock_trends_pos = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) + 5, 2)} for symbol in random.sample(utils.get_symbols(), 3)], key=itemgetter("trend"))
-    stock_trends_pos = [{"symbol": stock_trend_pos["symbol"], "trend_bin": True, "trend": "+{}%".format(stock_trend_pos["trend"])} for stock_trend_pos in stock_trends_pos]
+    stock_trends_positive = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) + 5, 2)} for symbol in random.sample(utils.get_symbols(), 3)], key=itemgetter("trend"), reverse=True)
+    stock_trends_positive = [{"symbol": stock_trend_positive["symbol"], "trend_bin": True, "trend": "+{}%".format(stock_trend_positive["trend"])} for stock_trend_positive in stock_trends_positive]
     
-    stock_trends_neg = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) - 5, 2)} for symbol in random.sample(utils.get_symbols(), 3)], key=itemgetter("trend"), reverse=True)
-    stock_trends_neg = [{"symbol": stock_trend_neg["symbol"], "trend_bin": False, "trend": "{}%".format(stock_trend_neg["trend"])} for stock_trend_neg in stock_trends_neg]
+    stock_trends_negative = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) - 5, 2)} for symbol in random.sample(utils.get_symbols(), 3)], key=itemgetter("trend"), reverse=True)
+    stock_trends_negative = [{"symbol": stock_trend_negative["symbol"], "trend_bin": False, "trend": "{}%".format(stock_trend_negative["trend"])} for stock_trend_negative in stock_trends_negative]
     
-    stock_trends = stock_trends_pos + stock_trends_neg
-
     stocks = len(utils.get_symbols())
 
     context = {
@@ -97,7 +95,8 @@ def dashboard(request):
         "histogram_div": histogram_div,
         "line_chart_div": line_chart_div,
         "line_chart_symbol": target_symbol.upper(),
-        "stock_trends": stock_trends,
+        "stock_trends_positive": stock_trends_positive,
+        "stock_trends_negative": stock_trends_negative,
         "stock_list_verbose": config["stock_list"]["verbose"].split(' ')[0],
         "stock_list_date_updated": config["stock_list"]["date_updated"]
     }
