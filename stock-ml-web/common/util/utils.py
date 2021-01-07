@@ -16,7 +16,8 @@ def console_log(message):
 
 # read config
 def get_config():
-    response = requests.get("http://configservice:5000/config")
+    # response = requests.get("http://configservice:5000/config")
+    response = requests.get("http://0.0.0.0:5000/config")
     return response.json()
 
 
@@ -32,19 +33,19 @@ def get_symbol_information(symbol):
 
 # get database connection
 def get_connection():
-    conn = mysql.connector.connect(
-        user='stock_web',
-        password='test123',
-        host='db',
-        port=3306,
-        database='stock_db')
-
     # conn = mysql.connector.connect(
-    #     user='root',
-    #     password='password',
-    #     host='localhost',
+    #     user='stock_web',
+    #     password='test123',
+    #     host='db',
     #     port=3306,
     #     database='stock_db')
+
+    conn = mysql.connector.connect(
+        user='root',
+        password='password',
+        host='localhost',
+        port=3306,
+        database='stock_db')
 
     return conn
 

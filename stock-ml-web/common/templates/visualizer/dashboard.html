@@ -19,12 +19,9 @@
     </div>
 
     <!-- Content Row -->
-    <div class="row">
-
+    <div class="row mb-3">
         <div class="col-3">
-
-
-            <div class="mb-4">
+            <div class="mb-2">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -44,7 +41,7 @@
                 </div>
             </div>
 
-            <div class="mb-4">
+            <div class="mb-2">
                 <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -64,13 +61,7 @@
                 </div>
             </div>
 
-
-        </div>
-
-        <div class="col-3">
-
-
-            <div class="mb-4">
+            <div class="mb-2">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -100,7 +91,7 @@
             </div>
     
     
-            <div class="mb-4">
+            <div class="mb-2">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -122,35 +113,29 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
 
-        <div class="col">
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div
-                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Highest Predicted Stock</h6>
+        <div class="col-9">
+            <div class="card shadow mb-4">
+                <a class="btn-link" href="/dashboard/{{ line_chart_symbol }}">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            {{ line_chart_symbol }}
+                        </h6>
                     </div>
-
-                    <div class="card-body">
-                        <div style="width:400px;height:300px;">
-                            {{ line_chart_div|safe }}
-                        </div>
-                    </div>
+                </a>      
+                <div class="card-body">
+                    {{ line_chart_div|safe }}
                 </div>
-
-
+            </div>
         </div>
-       
     </div>
 
 
     <div class="row">
 
         <!-- Area Chart -->
-        <div class="col-lg-9">
+        <div class="col-9">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div
@@ -183,8 +168,8 @@
         </div>
 
         <!-- Pie Chart -->
-        <div class="col-lg-3">
-            <div class="card shadow mb-4">
+        <div class="col-3">
+            <div class="card shadow mb-2">
                 <!-- Card Header - Dropdown -->
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -210,14 +195,14 @@
                         <a class="btn-link" href="/dashboard/{{ stock_trend.symbol }}">
                             {% if stock_trend.trend_bin %}
                             
-                                <div class="card border-left-success shadow h-60 py-2">
+                                <div class="card border-left-success shadow mb-2" style="height: 70px">
                                     <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="mb-0 font-weight-bold text-gray-800">
-                                                    {{ stock_trend.symbol }}<br/>
-                                                    {{ stock_trend.trend }}
-                                                </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold text-gray-700" style="text-align: left;">
+                                                {{ stock_trend.symbol }}
+                                            </div>
+                                            <div class="col font-weight-bold text-gray-900" style="text-align: right; white-space: nowrap;">
+                                                {{ stock_trend.trend }}
                                             </div>
                                         </div>
                                     </div>
@@ -225,14 +210,14 @@
                             
                             {% else %}
 
-                                <div class="card border-left-danger shadow h-60 py-2">
+                                <div class="card border-left-danger shadow mb-2" style="height: 70px;">
                                     <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="h7 mb-0 font-weight-bold text-gray-800">
-                                                    {{ stock_trend.symbol }}<br/>
-                                                    {{ stock_trend.trend }}
-                                                </div>
+                                        <div class="row">
+                                            <div class="col-5 font-weight-bold text-gray-700" style="text-align: left">
+                                                {{ stock_trend.symbol }}
+                                            </div>
+                                            <div class="col-7 font-weight-bold text-gray-900" style="text-align: right; white-space: nowrap;">
+                                                {{ stock_trend.trend }}
                                             </div>
                                         </div>
                                     </div>
@@ -240,8 +225,6 @@
 
                             {% endif %}
                         </a>
-
-                        </br>
                     {% endfor %}
 
                     <div class="mt-4 text-center small">
@@ -252,6 +235,7 @@
                             <i class="fas fa-circle text-danger"></i> Falling
                         </span>
                     </div>
+
                 </div>
             </div>
         </div>

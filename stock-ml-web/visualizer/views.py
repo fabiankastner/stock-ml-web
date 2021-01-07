@@ -61,16 +61,32 @@ def dashboard(request):
     fig.update_yaxes(visible=False, showticklabels=False)
     histogram_div = plot(fig, output_type='div')
 
+
+
     # best best predicted line chart
-    data = utils.get_symbol_data_from_db('abnb')
-    fig = px.line(data, x="date", y="open")
+    target_symbol = "abnb"
+    data = utils.get_symbol_data_from_db(target_symbol)
+    print(data.head())
+    fig = px.line(data, x="date", y=["high", "low", "open", "close"],
+        labels={
+                        "date": "Date",
+                        "value": "Value",
+                        "variable": "Target"
+                    },
+    )
+    fig.update_xaxes(rangeslider_visible=True)
+    fig.update_layout(
+        height=418
+    )
     line_chart_div = plot(fig, output_type='div')
 
-    stock_trends_pos = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) + 5, 2)} for symbol in random.sample(utils.get_symbols(), 2)], key=itemgetter("trend"))
-    stock_trends_pos = [{"symbol": stock_trend_pos["symbol"], "trend_bin": True, "trend": "+{} %".format(stock_trend_pos["trend"])} for stock_trend_pos in stock_trends_pos]
+
+
+    stock_trends_pos = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) + 5, 2)} for symbol in random.sample(utils.get_symbols(), 3)], key=itemgetter("trend"))
+    stock_trends_pos = [{"symbol": stock_trend_pos["symbol"], "trend_bin": True, "trend": "+{}%".format(stock_trend_pos["trend"])} for stock_trend_pos in stock_trends_pos]
     
-    stock_trends_neg = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) - 5, 2)} for symbol in random.sample(utils.get_symbols(), 2)], key=itemgetter("trend"), reverse=True)
-    stock_trends_neg = [{"symbol": stock_trend_neg["symbol"], "trend_bin": False, "trend": "{} %".format(stock_trend_neg["trend"])} for stock_trend_neg in stock_trends_neg]
+    stock_trends_neg = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) - 5, 2)} for symbol in random.sample(utils.get_symbols(), 3)], key=itemgetter("trend"), reverse=True)
+    stock_trends_neg = [{"symbol": stock_trend_neg["symbol"], "trend_bin": False, "trend": "{}%".format(stock_trend_neg["trend"])} for stock_trend_neg in stock_trends_neg]
     
     stock_trends = stock_trends_pos + stock_trends_neg
 
@@ -80,8 +96,9 @@ def dashboard(request):
         "stocks": stocks, 
         "histogram_div": histogram_div,
         "line_chart_div": line_chart_div,
+        "line_chart_symbol": target_symbol.upper(),
         "stock_trends": stock_trends,
-        "stock_list_verbose": config["stock_list"]["verbose"],
+        "stock_list_verbose": config["stock_list"]["verbose"].split(' ')[0],
         "stock_list_date_updated": config["stock_list"]["date_updated"]
     }
 
