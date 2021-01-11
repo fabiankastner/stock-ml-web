@@ -119,7 +119,9 @@ def dashboard(request):
     fig.update_layout(
         height=418
     )
-    line_chart_div = plot(fig, output_type='div')
+    line_chart_div = plot(fig, output_type='div', config=dict(
+                    displayModeBar=False)
+                    )
 
 
 
