@@ -49,6 +49,7 @@ def logout(request):
     return redirect('/login/')
 
 
+
 def dashboard(request):
     config = utils.get_config()
 
@@ -61,20 +62,60 @@ def dashboard(request):
     fig.update_yaxes(visible=False, showticklabels=False)
     histogram_div = plot(fig, output_type='div')
 
-
-
     # best best predicted line chart
     target_symbol = "abnb"
     data = utils.get_symbol_data_from_db(target_symbol)
+    data = data.iloc[-5000: ]
+
     print(data.head())
-    fig = px.line(data, x="date", y=["high", "low", "open", "close"],
+    data = data.reset_index(drop=True)
+    print(data.head())
+
+    data_prediction = data.iloc[int(data.shape[0] * 0.9): , : ]
+    data_prediction.columns = ['id', 'date', 'open_prediction', 'high_prediction', 'low_prediction', 'close_prediction', 'volume', 'symbol']
+    data_prediction['high'] = None
+    data_prediction['low'] = None
+    data_prediction['open'] = None
+    data_prediction['close'] = None
+
+    data = data.iloc[ :int(data.shape[0] * 0.9), : ]
+    data['high_prediction'] = None
+    data['low_prediction'] = None
+    data['open_prediction'] = None
+    data['close_prediction'] = None
+
+    print(data_prediction.shape)
+    print(data_prediction.columns)
+
+    print(data.shape)
+    print(data.columns)
+
+    data = data.append(data_prediction)
+
+    data.high = data.high.astype('float64')
+    data.low = data.low.astype('float64')
+    data.open = data.open.astype('float64')
+    data.close = data.close.astype('float64')
+
+    print(data.shape)
+    print(data.columns)
+    
+    print(data.dtypes)
+
+    fig = px.line(data, x=data.index, y=["high", "low", "open", "close", "high_prediction", "low_prediction", "open_prediction", "close_prediction"],
         labels={
                         "date": "Date",
                         "value": "Value",
                         "variable": "Target"
                     },
+                    color_discrete_sequence=["#99AFC2", "#C9DFB9", "#FBC888", "#FCB0B2", "#4D6880", "#7DB257", "#EC8609", "#F7262D",]
     )
+    
+    fig.add_vrect(x0=4500, x1=5000, line_width=0, fillcolor="green", opacity=0.1)
+    fig.add_vrect(x0=4500, x1=4500, line_dash="dash")
+
     fig.update_xaxes(rangeslider_visible=True)
+    fig.update_xaxes(showticklabels=False)
     fig.update_layout(
         height=418
     )
