@@ -77,12 +77,26 @@ WSGI_APPLICATION = 'stock-ml-web.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+try:
+	DATABASES = {
+			'default': {
+					'ENGINE': 'django.db.backends.mysql',
+					'NAME': 'django',
+					'USER': 'django',
+					'PASSWORD': os.environ['DB_PASSWORD'],
+					'HOST': os.environ['DB_HOST'],
+					'PORT': os.environ['DB_PORT']
+			}
+	}
+	print('using remote mysql instance')
+except KeyError:
+	print('using local sqlite')
+	DATABASES = {
+			'default': {
+					'ENGINE': 'django.db.backends.sqlite3',
+					'NAME': BASE_DIR / 'db.sqlite3',
+			}
+	}
 
 
 # Password validation
