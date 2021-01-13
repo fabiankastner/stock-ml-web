@@ -293,51 +293,76 @@
     </div>
 </div>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
 <script>
-    $(document).ready(function() {
-        document.getElementById('highbutton').addEventListener('click', function(){
-            lowcard.style.display = "none";
-            opencard.style.display = "none";
-            closecard.style.display = "none";
+    document.getElementById('highbutton').addEventListener('click', function(){
+        lowcard.style.display = "none";
+        opencard.style.display = "none";
+        closecard.style.display = "none";
+    
+        highcard.style.display = "block";
+    });
+    
+    document.getElementById('lowbutton').addEventListener('click', function(){
+        highcard.style.display = "none";
+        opencard.style.display = "none";
+        closecard.style.display = "none";
+    
+        lowcard.style.display = "block";
+    });
+    
+    document.getElementById('openbutton').addEventListener('click', function(){
+        highcard.style.display = "none";
+        lowcard.style.display = "none";
+        closecard.style.display = "none";
+    
+        opencard.style.display = "block";
+    });
+
         
-            highcard.style.display = "block";
+    document.getElementById('closebutton').addEventListener('click', function(){
+        highcard.style.display = "none";
+        lowcard.style.display = "none";
+        opencard.style.display = "none";
+    
+        closecard.style.display = "block";
+    });
+
+    $(document).ready(function(){
+        $('#highbutton').click( function(event){
+            $('#highbutton').removeClass('btn-outline-primary').addClass('btn-primary');
+
+            $('#lowbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#openbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#closebutton').removeClass('btn-primary').addClass('btn-outline-primary');
         });
-        
-        document.getElementById('lowbutton').addEventListener('click', function(){
-            highcard.style.display = "none";
-            opencard.style.display = "none";
-            closecard.style.display = "none";
-        
-            lowcard.style.display = "block";
-        });
-        
-        document.getElementById('openbutton').addEventListener('click', function(){
-            highcard.style.display = "none";
-            lowcard.style.display = "none";
-            closecard.style.display = "none";
-        
-            opencard.style.display = "block";
+
+        $('#lowbutton').click( function(event){
+            $('#lowbutton').removeClass('btn-outline-primary').addClass('btn-primary');
+
+            $('#highbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#openbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#closebutton').removeClass('btn-primary').addClass('btn-outline-primary');
         });
 
-            
-        document.getElementById('closebutton').addEventListener('click', function(){
-            highcard.style.display = "none";
-            lowcard.style.display = "none";
-            opencard.style.display = "none";
-        
-            closecard.style.display = "block";
+        $('#openbutton').click( function(event){
+            $('#openbutton').removeClass('btn-outline-primary').addClass('btn-primary');
+
+            $('#highbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#lowbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#closebutton').removeClass('btn-primary').addClass('btn-outline-primary');
         });
 
-        var plot_div_id = $('#line_chart_div').children().attr('id');
+        $('#closebutton').click( function(event){
+            $('#closebutton').removeClass('btn-outline-primary').addClass('btn-primary');
 
-        alert(plot_div_id);
-
-        var plotly_line_div = document.getElementById(plot_div_id);
-
-        plotly_line_div.on('plotly_click', function (data) {
-            alert("You clicked the button using JQuery!");
+            $('#highbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#lowbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#openbutton').removeClass('btn-primary').addClass('btn-outline-primary');
         });
     });
+
 </script>
                        
 {% endblock %}
