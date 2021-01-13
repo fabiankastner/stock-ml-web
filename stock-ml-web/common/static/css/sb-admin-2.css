@@ -9954,6 +9954,10 @@ a:focus {
   font-size: .7rem;
 }
 
+.text-md {
+  font-size: .9rem;
+}
+
 .text-lg {
   font-size: 1.2rem;
 }
