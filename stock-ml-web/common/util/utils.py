@@ -1,4 +1,5 @@
 import sys
+import os
 import time
 import json
 import requests
@@ -16,8 +17,7 @@ def console_log(message):
 
 # read config
 def get_config():
-    # response = requests.get("http://configservice:5000/config")
-    response = requests.get("http://0.0.0.0:5000/config")
+    response = requests.get(f"{os.environ.get('CONFIG_ADDRESS', 'http://0.0.0.0:5000')}/config")
     return response.json()
 
 
@@ -33,19 +33,13 @@ def get_symbol_information(symbol):
 
 # get database connection
 def get_connection():
-    # conn = mysql.connector.connect(
-    #     user='stock_web',
-    #     password='test123',
-    #     host='db',
-    #     port=3306,
-    #     database='stock_db')
-
     conn = mysql.connector.connect(
-        user='root',
-        password='password',
-        host='localhost',
-        port=3306,
-        database='stock_db')
+        user=os.environ.get('DATA_DB_USER', 'root'),
+        password=os.environ.get('DATA_DB_PASSWORD', 'password'),
+        host=os.environ.get('DATA_DB_HOST', '0.0.0.0'),
+        port=os.environ.get('DATA_DB_PORT', 3306),
+        database=os.environ.get('DATA_DB_DATABASE', 'stock_db')
+    )
 
     return conn
 
