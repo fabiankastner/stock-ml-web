@@ -31,7 +31,7 @@
                             <div class="h5 mb-0 font-weight-bold text-gray-800">+1.7 %</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            <span class="iconify big dark" data-icon="mdi:arrow-top-right-bold-outline" data-inline="false"></span>
                         </div>
                     </div>
                 </div>
@@ -50,37 +50,7 @@
                             <div class="h5 mb-0 font-weight-bold text-gray-800">+4.8 %</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Tasks
-                            </div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                </div>
-                                <div class="col">
-                                    <div class="progress progress-sm mr-2">
-                                        <div class="progress-bar bg-info" role="progressbar"
-                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                            aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            <span class="iconify big dark" data-icon="mdi:arrow-top-right-thick" data-inline="false"></span>
                         </div>
                     </div>
                 </div>
@@ -94,12 +64,12 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Pending Requests
+                                Accuracy
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">83.4 %</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                            <span class="iconify big dark" data-icon="mdi:arrow-collapse-all" data-inline="false"></span>
                         </div>
                     </div>
                 </div>
@@ -137,14 +107,11 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    
+                    <div id="line_chart_div" name="line_chart_div">
 
+                        {{ line_chart_div|safe }}
 
-                    {{ line_chart_div|safe }}
-
-
-
-                    
+                    </div>
                 </div>
             </div>
         </div>
@@ -153,41 +120,249 @@
         <div class="col-xl-4 col-lg-5">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
-                <div
-                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Something</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                            aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
+                <div class="card-header">
+                    <div class="flex-row">
+                        <button class="btn btn-primary text-xs" name="highbutton" id="highbutton">High</button>
+  
+                        <button class="btn btn-outline-primary text-xs" name="lowbutton" id="lowbutton">Low</button>
+
+                        <button class="btn btn-outline-primary text-xs" name="openbutton" id="openbutton">Open</button>
+
+                        <button class="btn btn-outline-primary text-xs" name="closebutton" id="closebutton">Close</button>
                     </div>
                 </div>
+
                 <!-- Card Body -->
                 <div class="card-body">
-                    <div class="mt-4 text-center small">
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-primary"></i> Direct
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-success"></i> Social
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-info"></i> Referral
-                        </span>
+
+                    <div name="highcard" id="highcard">
+    
+                        <div class="col">
+
+                            <div class="text-lg font-weight-bold text-primary text-uppercase mb-2">
+                                High Prediction
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-md mb-0 text-gray-800">
+                                    Accuracy
+                                </div>
+                                <div class="col-6 text-md mb-0 font-weight-bold text-gray-800">
+                                    64.3 %
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-md mb-0 text-gray-800">
+                                    Variance
+                                </div>
+                                <div class="col-6 text-md mb-0 font-weight-bold text-gray-800">
+                                    0.56
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-md mb-0 text-gray-800">
+                                    Incline
+                                </div>
+                                <div class="col-6 text-md mb-0 font-weight-bold text-gray-800">
+                                    0.21
+                                </div>
+                            </div>
+     
+                        </div>
+                    </div>
+
+                    <div name="lowcard" id="lowcard" style="display: none;">
+       
+                        <div class="col">
+
+                            <div class="text-lg font-weight-bold text-primary text-uppercase mb-2">
+                                Low Prediction
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-md mb-0 text-gray-800">
+                                    Accuracy
+                                </div>
+                                <div class="col-6 text-md mb-0 font-weight-bold text-gray-800">
+                                    69.7 %
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-md mb-0 text-gray-800">
+                                    Variance
+                                </div>
+                                <div class="col-6 text-md mb-0 font-weight-bold text-gray-800">
+                                    0.51
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-md mb-0 text-gray-800">
+                                    Incline
+                                </div>
+                                <div class="col-6 text-md mb-0 font-weight-bold text-gray-800">
+                                    0.19
+                                </div>
+                            </div>
+                                 
+                        </div>
+                    </div>
+
+                    <div id="opencard" style="display: none;">
+
+                        <div class="col">
+
+                            <div class="text-lg font-weight-bold text-primary text-uppercase mb-2">
+                                Open Prediction
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-md mb-0 text-gray-800">
+                                    Accuracy
+                                </div>
+                                <div class="col-6 text-md mb-0 font-weight-bold text-gray-800">
+                                    78.1 %
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-md mb-0 text-gray-800">
+                                    Variance
+                                </div>
+                                <div class="col-6 text-md mb-0 font-weight-bold text-gray-800">
+                                    0.76
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-md mb-0 text-gray-800">
+                                    Incline
+                                </div>
+                                <div class="col-6 text-md mb-0 font-weight-bold text-gray-800">
+                                    0.25
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+
+                    <div name="closecard" id="closecard" style="display: none;">
+   
+                        <div class="col">
+
+                            <div class="text-lg font-weight-bold text-primary text-uppercase mb-2">
+                                Close Prediction
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-md mb-0 text-gray-800">
+                                    Accuracy
+                                </div>
+                                <div class="col-6 text-md mb-0 font-weight-bold text-gray-800">
+                                    60.7 %
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-md mb-0 text-gray-800">
+                                    Variance
+                                </div>
+                                <div class="col-6 text-md mb-0 font-weight-bold text-gray-800">
+                                    0.33
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-md mb-0 text-gray-800">
+                                    Incline
+                                </div>
+                                <div class="col-6 text-md mb-0 font-weight-bold text-gray-800">
+                                    0.12
+                                </div>
+                            </div>           
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+<script>
+    document.getElementById('highbutton').addEventListener('click', function(){
+        lowcard.style.display = "none";
+        opencard.style.display = "none";
+        closecard.style.display = "none";
+    
+        highcard.style.display = "block";
+    });
+    
+    document.getElementById('lowbutton').addEventListener('click', function(){
+        highcard.style.display = "none";
+        opencard.style.display = "none";
+        closecard.style.display = "none";
+    
+        lowcard.style.display = "block";
+    });
+    
+    document.getElementById('openbutton').addEventListener('click', function(){
+        highcard.style.display = "none";
+        lowcard.style.display = "none";
+        closecard.style.display = "none";
+    
+        opencard.style.display = "block";
+    });
+
+        
+    document.getElementById('closebutton').addEventListener('click', function(){
+        highcard.style.display = "none";
+        lowcard.style.display = "none";
+        opencard.style.display = "none";
+    
+        closecard.style.display = "block";
+    });
+
+    $(document).ready(function(){
+        $('#highbutton').click( function(event){
+            $('#highbutton').removeClass('btn-outline-primary').addClass('btn-primary');
+
+            $('#lowbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#openbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#closebutton').removeClass('btn-primary').addClass('btn-outline-primary');
+        });
+
+        $('#lowbutton').click( function(event){
+            $('#lowbutton').removeClass('btn-outline-primary').addClass('btn-primary');
+
+            $('#highbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#openbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#closebutton').removeClass('btn-primary').addClass('btn-outline-primary');
+        });
+
+        $('#openbutton').click( function(event){
+            $('#openbutton').removeClass('btn-outline-primary').addClass('btn-primary');
+
+            $('#highbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#lowbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#closebutton').removeClass('btn-primary').addClass('btn-outline-primary');
+        });
+
+        $('#closebutton').click( function(event){
+            $('#closebutton').removeClass('btn-outline-primary').addClass('btn-primary');
+
+            $('#highbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#lowbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+            $('#openbutton').removeClass('btn-primary').addClass('btn-outline-primary');
+        });
+    });
+
+</script>
                        
 {% endblock %}

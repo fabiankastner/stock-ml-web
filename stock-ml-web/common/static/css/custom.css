@@ -16,11 +16,7 @@
     height: 64px;
 }
 
-a {
-    text-decoration: none;
-}
-
-a:hover{
+.my-link:hover{
     text-decoration: none;
 }
 
