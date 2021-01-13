@@ -4,8 +4,6 @@
 
 {% block content %}
 
-<link href="{% static 'css/custom.css' %}" rel="stylesheet" type="text/css">
-
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -19,7 +17,7 @@
     </div>
 
     <!-- Content Row -->
-    <div class="row mb-3">
+    <div class="row mb-1">
         <div class="col-3">
             <div class="mb-2">
                 <div class="card hovercard border-left-primary shadow h-100 py-2">
@@ -117,14 +115,14 @@
 
         <div class="col-9">
             <div class="card shadow mb-4">
-                <a class="btn-link" href="/dashboard/{{ line_chart_symbol }}">
+                <a class="btn-link my-link" href="/dashboard/{{ line_chart_symbol }}">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">
                             {{ line_chart_symbol }}
                         </h6>
                     </div>
                 </a>      
-                <div class="card-body">
+                <div class="card-body mx-0 px-0">
                     {{ line_chart_div|safe }}
                 </div>
             </div>
@@ -132,7 +130,7 @@
     </div>
 
 
-    <div class="row">
+    <div class="row mb-2">
 
         <!-- Area Chart -->
         <div class="col-9">
@@ -167,12 +165,9 @@
             </div>
         </div>
 
-        <!-- Pie Chart -->
-        <div class="col-3">
+        <div class="col-3 mb-3">
             <div class="card shadow mb-2">
-                <!-- Card Header - Dropdown -->
-                <div
-                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Stock Trends</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -191,42 +186,45 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
+                    
                     {% for stock_trend in stock_trends_positive %}
-                        <a class="btn-link" href="/dashboard/{{ stock_trend.symbol }}"> 
-                            <div class="card hovercard border-left-success shadow mb-2" style="height: 70px">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col font-weight-bold text-gray-700" style="text-align: left;">
-                                            {{ stock_trend.symbol }}
-                                        </div>
-                                        <div class="col font-weight-bold text-gray-900" style="text-align: right; white-space: nowrap;">
-                                            {{ stock_trend.trend }}
-                                        </div>
+                        
+                    <div class="card hovercard border-left-success shadow mb-2" style="height: 70px">
+                        <a class="my-link" href="/dashboard/{{ stock_trend.symbol }}"> 
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col text-md font-weight-bold text-gray-700" style="text-align: left;">
+                                        {{ stock_trend.symbol }}
+                                    </div>
+                                    <div class="col text-lg font-weight-bold text-gray-900" style="text-align: right; white-space: nowrap;">
+                                        {{ stock_trend.trend }}
                                     </div>
                                 </div>
                             </div>
                         </a>
+                    </div>
+                        
+                    {% endfor %}
 
-                        {% endfor %}
+                    <br/>
 
-                        <br/>
+                    {% for stock_trend in stock_trends_negative %}
 
-                        {% for stock_trend in stock_trends_negative %}
-
-                            <div class="card hovercard border-left-danger shadow mb-2" style="height: 70px;">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-5 font-weight-bold text-gray-700" style="text-align: left">
-                                            {{ stock_trend.symbol }}
-                                        </div>
-                                        <div class="col-7 font-weight-bold text-gray-900" style="text-align: right; white-space: nowrap;">
-                                            {{ stock_trend.trend }}
-                                        </div>
+                    <div class="card hovercard border-left-danger shadow mb-2" style="height: 70px">
+                        <a class="my-link" href="/dashboard/{{ stock_trend.symbol }}"> 
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col text-md font-weight-bold text-gray-700" style="text-align: left;">
+                                        {{ stock_trend.symbol }}
+                                    </div>
+                                    <div class="col text-xs font-weight-bold text-gray-900" style="text-align: right; white-space: nowrap;">
+                                        {{ stock_trend.trend }}
                                     </div>
                                 </div>
                             </div>
-
                         </a>
+                    </div>
+                  
                     {% endfor %}
 
                     <div class="mt-4 text-center small">
@@ -237,7 +235,6 @@
                             <i class="fas fa-circle text-danger"></i> Falling
                         </span>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -247,7 +244,7 @@
     <div class="row">
 
         <!-- Content Column -->
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-7 mb-4">
 
             <!-- Project Card Example -->
             <div class="card shadow mb-4">
@@ -285,7 +282,7 @@
 
         </div>
 
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-5 mb-4">
 
             <!-- Illustrations -->
             <div class="card shadow mb-4">
@@ -297,8 +294,16 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        Nicole Hölzl, Paul Hörnmann, Fabian Kastner
+                                    <div class="font-weight-bold text-primary mb-1">
+                                        <div class="row mb-1">
+                                            Nicole Hölzl
+                                        </div>
+                                        <div class="row mb-1">
+                                            Paul Hörmann
+                                        </div>
+                                        <div class="row">
+                                            Fabian Kastner
+                                        </div>
                                     </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                                         
