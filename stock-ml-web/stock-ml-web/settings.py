@@ -25,7 +25,7 @@ SECRET_KEY = 'd#27$@s10%b(trlpic(qp(ea6smym=2=#^&e5m^d*63-p9rj2f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
