@@ -59,8 +59,8 @@ jobs:
         uses: azure/aks-set-context@v1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
-          cluster-name: ${{ env.CLUSTER_NAME }}
-          resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+          cluster-name: stock-ml-kubernetes
+          resource-group: stock-ml
 
       - 
         uses: azure/k8s-deploy@v1
