@@ -64,6 +64,6 @@ jobs:
         uses: azure/k8s-deploy@v1
         with:
           manifests: |
-            kubernetes/web-deployment.yml
-            kubernetes/web-service.yml
+            kubernetes/web-deployment.yaml
+            kubernetes/web-service.yaml
 
