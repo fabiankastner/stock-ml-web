@@ -54,3 +54,18 @@ jobs:
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+      - 
+        uses: azure/aks-set-context@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          cluster-name: ${{ env.CLUSTER_NAME }}
+          resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+
+      - 
+        uses: azure/k8s-deploy@v1
+        with:
+          manifests: |
+            kubernetes/web-deployment.yml
+            kubernetes/web-service.yml
+
