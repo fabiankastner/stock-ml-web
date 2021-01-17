@@ -56,11 +56,9 @@ jobs:
         run: echo ${{ steps.docker_build.outputs.digest }}
 
       - 
-        uses: azure/aks-set-context@v1
+        uses: azure/k8s-set-context@v1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
-          cluster-name: stock-ml-kubernetes
-          resource-group: stock-ml
 
       - 
         uses: azure/k8s-deploy@v1
