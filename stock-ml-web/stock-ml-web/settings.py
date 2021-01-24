@@ -77,6 +77,8 @@ WSGI_APPLICATION = 'stock-ml-web.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+from common.util.utils import console_log
+
 try:
 	DATABASES = {
 			'default': {
@@ -88,9 +90,9 @@ try:
 					'PORT': os.environ['DB_PORT']
 			}
 	}
-	print('using remote mysql instance')
+	console_log("Using MYSQL DB")
 except KeyError:
-	print('using local sqlite')
+	console_log("Using Local SQLite DB")
 	DATABASES = {
 			'default': {
 					'ENGINE': 'django.db.backends.sqlite3',

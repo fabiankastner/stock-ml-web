@@ -18,8 +18,12 @@ def console_log(message):
 
 # read config
 def get_config():
-    response = requests.get(f"{os.environ.get('CONFIG_ADDRESS', 'http://0.0.0.0:5000')}/config")
-    return response.json()
+    response = None
+    try:
+        response = requests.get(f"{os.environ.get('CONFIG_ADDRESS', 'http://0.0.0.0:5000')}/config")
+    except:
+        pass
+    return response if response else None
 
 
 # get symbol information from stock_list file
