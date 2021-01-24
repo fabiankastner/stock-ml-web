@@ -34,13 +34,17 @@ def get_symbol_information(symbol):
 
 # get database connection
 def get_connection():
-    conn = mysql.connector.connect(
-        user=os.environ.get('DATA_DB_USER', 'root'),
-        password=os.environ.get('DATA_DB_PASSWORD', 'password'),
-        host=os.environ.get('DATA_DB_HOST', '0.0.0.0'),
-        port=os.environ.get('DATA_DB_PORT', 3306),
-        database=os.environ.get('DATA_DB_DATABASE', 'stock_db')
-    )
+    conn = None
+    try:
+        conn = mysql.connector.connect(
+            user=os.environ.get('DATA_DB_USER', 'root'),
+            password=os.environ.get('DATA_DB_PASSWORD', 'password'),
+            host=os.environ.get('DATA_DB_HOST', '0.0.0.0'),
+            port=os.environ.get('DATA_DB_PORT', 3306),
+            database=os.environ.get('DATA_DB_DATABASE', 'stock_db')
+        )
+    except:
+        pass
 
     return conn
 
