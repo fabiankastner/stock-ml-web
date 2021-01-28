@@ -57,12 +57,6 @@ def dashboard(request):
     config = utils.get_config()
     
     histogram_div = plots.get_hist()
-
-    # best best predicted line chart
-    target_symbol = "abnb"
-    # fig = utils.get_line_fig_from_symbol(target_symbol)
-    # line_chart_div = plot(fig, output_type='div', config=dict(displayModeBar=False))
-
     line_chart_div = plots.get_line_chart("abnb")
 
     # stock_trends_positive = sorted([{"symbol": symbol, "trend": round(np.random.normal(0, 2) + 5, 2)} for symbol in random.sample(utils.get_symbols(), 3)], key=itemgetter("trend"), reverse=True)
@@ -76,6 +70,9 @@ def dashboard(request):
     context = {
         "stocks": None, 
         "histogram_div": histogram_div,
+        "average_prediction": None,
+        "stocks_predicted": None,
+        "stocks_predicted_value": 0,
         "line_chart_div": None,
         "line_chart_symbol": None,
         "stock_trends_positive": None,
@@ -83,6 +80,7 @@ def dashboard(request):
         "stock_list_verbose": None,
         "stock_list_date_updated": None 
     }
+    
     # config["stock_list"]["verbose"].split(' ')[0]
     # config["stock_list"]["date_updated"]
 

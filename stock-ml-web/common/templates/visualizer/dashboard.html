@@ -5,7 +5,7 @@
 {% block content %}
 
 <!-- Begin Page Content -->
-<div class="container-fluid">
+<div class="container-fluid pt-4" style="background-color: white;">
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -48,7 +48,7 @@
                                     Average Prediction
                                 </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    +0.5 %
+                                    {{ average_prediction }}
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -69,12 +69,12 @@
                                 </div>
                                 <div class="row no-gutters align-items-center">
                                     <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">42 %</div>
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ stocks_predicted }}</div>
                                     </div>
                                     <div class="col">
                                         <div class="progress progress-sm mr-2">
                                             <div class="progress-bar" role="progressbar"
-                                                style="width: 42%" aria-valuenow="50" aria-valuemin="0"
+                                                style="width: 0%" aria-valuemin="0"
                                                 aria-valuemax="100"></div>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
             </div>
     
     
-            <div class="mb-2">
+            <div class="mb-4">
                 <div class="card hovercard border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -154,8 +154,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Card Body -->
-                <div class="card-body">
+                <div class="card-body mx-0 px-0">
                     
 
                     {{ histogram_div|safe }}
@@ -244,7 +243,7 @@
     <div class="row">
 
         <!-- Content Column -->
-        <div class="col-lg-7 mb-4">
+        <div class="col-lg-8 mb-4">
 
             <!-- Project Card Example -->
             <div class="card shadow mb-4">
@@ -282,7 +281,7 @@
 
         </div>
 
-        <div class="col-lg-5 mb-4">
+        <div class="col-lg-4 mb-4">
 
             <!-- Illustrations -->
             <div class="card shadow mb-4">
@@ -295,12 +294,6 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div class="font-weight-bold text-primary mb-1">
-                                        <div class="row mb-1">
-                                            Nicole Hölzl
-                                        </div>
-                                        <div class="row mb-1">
-                                            Paul Hörmann
-                                        </div>
                                         <div class="row">
                                             Fabian Kastner
                                         </div>
