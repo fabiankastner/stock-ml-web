@@ -1,0 +1,26 @@
+.iconify.light {
+    color: #f8f9fc;
+}
+
+.iconify.dark {
+    color: #5a5c69;
+}
+
+.iconify.medium {
+    width: 25px;
+    height: 32px;
+}
+
+.iconify.big {
+    width: 50px;
+    height: 64px;
+}
+
+.my-link:hover{
+    text-decoration: none;
+}
+
+.hovercard:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}

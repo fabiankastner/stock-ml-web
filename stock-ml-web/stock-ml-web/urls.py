@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('', include('visualizer.urls')),
@@ -22,3 +23,5 @@ urlpatterns = [
     path('dashboard', include('visualizer.urls')),
     path('symbol_dashboard/<str:symbol>/', include('visualizer.urls'))
 ]
+
+urlpatterns += staticfiles_urlpatterns()
